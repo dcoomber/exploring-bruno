@@ -1,0 +1,18 @@
+meta {
+  name: Filter characters
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/character/?name=rick&status=alive
+  body: none
+}
+
+query {
+  name: rick
+  status: alive
+  ~species: 
+  ~type: null
+  ~gender: null
+}

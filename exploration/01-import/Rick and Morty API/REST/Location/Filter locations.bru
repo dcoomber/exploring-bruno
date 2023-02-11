@@ -1,0 +1,16 @@
+meta {
+  name: Filter locations
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/location?type=planet
+  body: none
+}
+
+query {
+  type: planet
+  ~name: null
+  ~dimension: null
+}

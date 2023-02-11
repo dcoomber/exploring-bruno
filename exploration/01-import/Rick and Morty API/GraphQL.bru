@@ -1,0 +1,48 @@
+meta {
+  name: GraphQL
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://rickandmortyapi.com/graphql
+  body: text
+}
+
+body:json {
+  query {
+    characters(page: 2, filter: { name: "rick" }) {
+      info {
+        count
+      }
+      results {
+        name
+      }
+    }
+    location(id: 1) {
+      id
+    }
+    episodesByIds(ids: [1, 2]) {
+      id
+    }
+  }
+}
+
+body:text {
+  query {
+    characters(page: 2, filter: { name: "rick" }) {
+      info {
+        count
+      }
+      results {
+        name
+      }
+    }
+    location(id: 1) {
+      id
+    }
+    episodesByIds(ids: [1, 2]) {
+      id
+    }
+  }
+}
