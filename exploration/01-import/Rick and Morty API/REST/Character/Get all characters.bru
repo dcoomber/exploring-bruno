@@ -12,3 +12,26 @@ get {
 query {
   ~page: 19
 }
+
+assert {
+  res.status: 200
+  res.body.info.count: isNumber
+}
+
+script:post-response {
+  let data = res.getBody();
+  bru.setVar("characterCount", data.info.count);
+  bru.setVar("characterId", data.results[0].id);
+}
+
+tests {
+  test("should be able to login", function() {
+    const data = res.getBody();
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("should be a number", function() {
+    const data = res.getBody();
+    expect(data.info.count).to.be.a('number');
+  });
+}

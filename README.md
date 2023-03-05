@@ -16,6 +16,9 @@ You can use git or any version control of your choice to collaborate over your a
 
 ## Explorations
 
+1. [Importing a Postman collection](./exploration/01-import/01-import.md)
+1. [Create a new collection](./exploration/02-create/02-create.md)
+
 ### Importing a Postman collection
 
 Credit:  https://github.com/loopDelicious/rick-and-morty-postman

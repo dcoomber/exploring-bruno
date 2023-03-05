@@ -1,0 +1,500 @@
+{
+	"info": {
+		"_postman_id": "a4df5076-5f24-4bfe-a67f-c2ac70428472",
+		"name": "Bookings v1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10338571"
+	},
+	"item": [
+		{
+			"name": "Retrieve list of bookings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// calculate the days elapsed to determine which reminder to send and for how long",
+							"const jsonData = pm.response.json();",
+							"let var1 = 1;",
+							"",
+							"//const moment = require('moment')",
+							"//let progression = moment().diff(moment(startday), 'days')",
+							"console.log(`This is an example console log`);",
+							"",
+							"// Response code",
+							"pm.test(\"Test returned 200 code\", function() {",
+							"    pm.expect(pm.response.code).to.eql(200);",
+							"});",
+							"",
+							"// Check the response",
+							"pm.test(\"Test that response is an array\", () => {",
+							"  pm.expect(jsonData).to.be.an(\"array\");",
+							"});",
+							"",
+							"// If there is data, confirm the data type",
+							"if ( jsonData.length > 0 ) {",
+							"    pm.test(\"Test data types of the response array\", () => {",
+							"        pm.expect(jsonData[0].bookingid).to.be.a(\"number\");",
+							"    })",
+							"};"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://hotel-test.equalexperts.io/booking",
+					"protocol": "http",
+					"host": [
+						"hotel-test",
+						"equalexperts",
+						"io"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a booking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Retrieve collection variables",
+							"const addBookingJson = pm.collectionVariables.get(\"addBookingJson\");",
+							"const description = pm.collectionVariables.get(\"description\");",
+							"const httpResponse = pm.collectionVariables.get(\"httpResponse\");",
+							"const fullName = pm.collectionVariables.get(\"firstName\") + \" \" +",
+							"    pm.collectionVariables.get(\"lastName\");",
+							"",
+							"if ( addBookingJson && addBookingJson.length > 0){",
+							"    postman.setNextRequest(\"Add a booking\");",
+							"} else {",
+							"    postman.setNextRequest(null);",
+							"}",
+							"",
+							"pm.test(\"Status code is \" + httpResponse + \" for \" + description + \" ('\" + fullName + \"')\", function () {",
+							"    pm.response.to.have.status(httpResponse);",
+							"});",
+							"",
+							"// Validate the response data for successful responses",
+							"if ( pm.response.code === 200 ) {",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    pm.test(\"Test data type of a 200 response\", () => {",
+							"        pm.expect(jsonData).to.be.an(\"object\");",
+							"        pm.expect(jsonData.bookingid).to.be.a(\"number\");",
+							"        pm.expect(jsonData.booking.firstname).to.be.a(\"string\");",
+							"        pm.expect(jsonData.booking.lastname).to.be.a(\"string\");",
+							"        pm.expect(jsonData.booking.totalprice).to.be.a(\"number\");",
+							"        pm.expect(jsonData.booking.depositpaid).to.be.a(\"boolean\");",
+							"        pm.expect(jsonData.booking.bookingdates.checkin).to.be.a(\"string\");",
+							"        pm.expect(jsonData.booking.bookingdates.checkout).to.be.a(\"string\");",
+							"    })",
+							"",
+							"    // Persist the bookingId for later use (only delete our own test data)",
+							"    let bookingJsonData = { \"bookingid\": jsonData.bookingid, \"httpresponse\": 201 };",
+							"    let retrieveBookingJson = pm.collectionVariables.get(\"retrieveBookingJson\");",
+							"",
+							"    console.log(\"Add for retrieve / deletion\", bookingJsonData);",
+							"",
+							"    if ( !retrieveBookingJson || !typeof retrieveBookingJson == \"array\" ) {",
+							"        retrieveBookingJson = [bookingJsonData];",
+							"    } else {",
+							"        retrieveBookingJson.push(bookingJsonData);",
+							"    }",
+							"",
+							"    // Persist for use with retrieve and delete",
+							"    pm.collectionVariables.set(\"retrieveBookingJson\", retrieveBookingJson);",
+							"    pm.collectionVariables.set(\"deleteBookingJson\", retrieveBookingJson);",
+							"};"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let addBookingJson = pm.collectionVariables.get(\"addBookingJson\");",
+							"",
+							"// Retrieve the next element in the collection data array",
+							"let currentTestDataJson = addBookingJson.shift();",
+							"let currentFirstName = currentTestDataJson.firstname;",
+							"let currentLastName = currentTestDataJson.lastname;",
+							"let currentTotalPrice = currentTestDataJson.totalprice;",
+							"let currentDepositPaid = currentTestDataJson.depositpaid;",
+							"let currentCheckIn = currentTestDataJson.checkin;",
+							"let currentCheckOut = currentTestDataJson.checkout;",
+							"let currentDescription = currentTestDataJson.description;",
+							"let currentHttpResponse = currentTestDataJson.httpresponse;",
+							"",
+							"console.log(\"Adding booking\", currentTestDataJson)",
+							"",
+							"// Persist the current values",
+							"pm.collectionVariables.set(\"addBookingJson\", addBookingJson);",
+							"pm.collectionVariables.set(\"firstName\", currentFirstName);",
+							"pm.collectionVariables.set(\"lastName\", currentLastName);",
+							"pm.collectionVariables.set(\"totalPrice\", currentTotalPrice);",
+							"pm.collectionVariables.set(\"depositPaid\", currentDepositPaid);",
+							"pm.collectionVariables.set(\"checkIn\", currentCheckIn);",
+							"pm.collectionVariables.set(\"checkOut\", currentCheckOut);",
+							"pm.collectionVariables.set(\"description\", currentDescription);",
+							"pm.collectionVariables.set(\"httpResponse\", currentHttpResponse);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstname\": \"{{firstName}}\",\n    \"lastname\": \"{{lastName}}\",\n    \"totalprice\": {{totalPrice}},\n    \"depositpaid\": {{depositPaid}},\n    \"bookingdates\": {\n        \"checkin\": \"{{checkIn}}\",\n        \"checkout\": \"{{checkOut}}\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://hotel-test.equalexperts.io/booking/",
+					"protocol": "http",
+					"host": [
+						"hotel-test",
+						"equalexperts",
+						"io"
+					],
+					"path": [
+						"booking",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve a booking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const retrieveBookingJson = pm.collectionVariables.get(\"retrieveBookingJson\");",
+							"const httpResponse = pm.collectionVariables.get(\"httpResponse\");",
+							"",
+							"if ( retrieveBookingJson && retrieveBookingJson.length > 0) {",
+							"    postman.setNextRequest(\"Retrieve a booking\");",
+							"} else {",
+							"    postman.setNextRequest(null);",
+							"}",
+							"",
+							"pm.test(\"Status code is \" + httpResponse, function () {",
+							"    pm.response.to.have.status(httpResponse);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Retrieve collection variables",
+							"let retrieveBookingJson = pm.collectionVariables.get(\"retrieveBookingJson\");",
+							"",
+							"// Retrieve the next element in the collection data array",
+							"let currentTestDataJson = retrieveBookingJson.shift();",
+							"let currentBookingId = currentTestDataJson.bookingid;",
+							"let currentBookingHttpResponse = currentTestDataJson.httpresponse;",
+							"",
+							"console.log(\"Retrieving booking\", currentTestDataJson)",
+							"",
+							"// Persist the current values",
+							"pm.collectionVariables.set(\"httpResponse\", currentBookingHttpResponse);",
+							"pm.collectionVariables.set(\"bookingId\", currentBookingId);",
+							"pm.collectionVariables.set(\"retrieveBookingJson\", retrieveBookingJson);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://hotel-test.equalexperts.io/booking/:bookingId",
+					"protocol": "http",
+					"host": [
+						"hotel-test",
+						"equalexperts",
+						"io"
+					],
+					"path": [
+						"booking",
+						":bookingId"
+					],
+					"variable": [
+						{
+							"key": "bookingId",
+							"value": "{{bookingId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a booking",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Retrieve collection variables",
+							"let deleteBookingJson = pm.collectionVariables.get(\"deleteBookingJson\");",
+							"",
+							"// Retrieve the next element in the collection data array",
+							"let currentTestDataJson = deleteBookingJson.shift();",
+							"let currentBookingId = currentTestDataJson.bookingid;",
+							"let currentBookingHttpResponse = currentTestDataJson.httpresponse;",
+							"",
+							"console.log(\"Deleting booking\", currentTestDataJson)",
+							"",
+							"// Persist the current values",
+							"pm.collectionVariables.set(\"httpResponse\", currentBookingHttpResponse);",
+							"pm.collectionVariables.set(\"bookingId\", currentBookingId);",
+							"pm.collectionVariables.set(\"deleteBookingJson\", deleteBookingJson);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const deleteBookingJson = pm.collectionVariables.get(\"deleteBookingJson\");",
+							"const httpResponse = pm.collectionVariables.get(\"httpResponse\");",
+							"",
+							"if ( deleteBookingJson && deleteBookingJson.length > 0 ){",
+							"    postman.setNextRequest(\"Delete a booking\");",
+							"} else {",
+							"    postman.setNextRequest(null);",
+							"}",
+							"",
+							"pm.test(\"Status code is \" + httpResponse, function () {",
+							"    pm.response.to.have.status(httpResponse);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+						"key": "authorization",
+						"value": "Basic YWRtaW46cGFzc3dvcmQxMjM=",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://hotel-test.equalexperts.io/booking/:bookingid",
+					"protocol": "http",
+					"host": [
+						"hotel-test",
+						"equalexperts",
+						"io"
+					],
+					"path": [
+						"booking",
+						":bookingid"
+					],
+					"variable": [
+						{
+							"key": "bookingid",
+							"value": "{{bookingId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"let addBookingJson = pm.collectionVariables.get(\"addBookingJson\");",
+					"let retrieveBookingJson = pm.collectionVariables.get(\"retrieveBookingJson\");",
+					"let deleteBookingJson = pm.collectionVariables.get(\"deleteBookingJson\");",
+					"",
+					"// Test data used in adding bookings",
+					"if ( !addBookingJson || addBookingJson.length == 0 ) {",
+					"    addBookingJson = [",
+					"        {",
+					"            \"firstname\": \"Mickey\",",
+					"            \"lastname\": \"Mouse\",",
+					"            \"totalprice\": 1000,",
+					"            \"depositpaid\": true,",
+					"            \"checkin\": \"2022-01-16\",",
+					"            \"checkout\": \"2022-01-19\",",
+					"            \"description\": \"valid data\",",
+					"            \"httpresponse\": 200",
+					"        },",
+					"        // TODO: Log bug - returns 200 when expect 400",
+					"        // {",
+					"        //     \"firstname\": 123456,",
+					"        //     \"lastname\": \"Duck\",",
+					"        //     \"totalprice\": 2000,",
+					"        //     \"depositpaid\": false,",
+					"        //     \"checkin\": \"2022-02-16\",",
+					"        //     \"checkout\": \"2022-02-29\",",
+					"        //     \"description\": \"invalid firstName (numeric)\",",
+					"        //     \"httpresponse\": 400",
+					"        // },",
+					"        // TODO: Log bug - returns 500 when expect 400",
+					"        // {",
+					"        //     \"firstname\": \"Donald\",",
+					"        //     \"lastname\": \"\\\"\",",
+					"        //     \"totalprice\": 3000,",
+					"        //     \"depositpaid\": true,",
+					"        //     \"checkin\": \"2022-03-16\",",
+					"        //     \"checkout\": \"2022-03-31\",",
+					"        //     \"description\": \"invalid lastName (quotes)\",",
+					"        //     \"httpresponse\": 400",
+					"        // },",
+					"        {",
+					"            \"firstname\": \"Darkwing\",",
+					"            \"lastname\": \"Duck\",",
+					"            \"totalprice\": \"abc\",",
+					"            \"depositpaid\": false,",
+					"            \"checkin\": \"2022-04-31\",",
+					"            \"checkout\": \"2022-04-30\",",
+					"            \"description\": \"invalid totalPrice (alpha)\",",
+					"            \"httpresponse\": 400",
+					"        },",
+					"        {",
+					"            \"firstname\": \"Howard\",",
+					"            \"lastname\": \"The Duck\",",
+					"            \"totalprice\": 5000,",
+					"            \"depositpaid\": \"abcd\",",
+					"            \"checkin\": \"2022-05-32\",",
+					"            \"checkout\": \"2022-04-30\",",
+					"            \"description\": \"invalid depositPaid (alpha)\",",
+					"            \"httpresponse\": 400",
+					"        },",
+					"        // TODO: Log bug - returns 500 when expect 400",
+					"        // {",
+					"        //     \"firstname\": \"Goofy\",",
+					"        //     \"lastname\": \"Goof\",",
+					"        //     \"totalprice\": 6000,",
+					"        //     \"depositpaid\": false,",
+					"        //     \"checkin\": \"2022-06-32\",",
+					"        //     \"checkout\": \"2022-06-30\",",
+					"        //     \"description\": \"invalid checkIn\",",
+					"        //     \"httpresponse\": 400",
+					"        // },",
+					"        // TODO: Log bug - returns 500 when expect 400",
+					"        // {",
+					"        //     \"firstname\": \"Minnie\",",
+					"        //     \"lastname\": \"Mouse\",",
+					"        //     \"totalprice\": 7000,",
+					"        //     \"depositpaid\": true,",
+					"        //     \"checkin\": \"2022-07-01\",",
+					"        //     \"checkout\": \"2022-07-32\",",
+					"        //     \"description\": \"invalid checkOut\",",
+					"        //     \"httpresponse\": 400",
+					"        // }",
+					"    ]",
+					"}",
+					"",
+					"// Initialise test data for deletion with at least on failing test",
+					"if ( !retrieveBookingJson || retrieveBookingJson.length == 0 ) {",
+					"    retrieveBookingJson = [ { \"bookingid\": -1, \"httpresponse\": 404 } ];",
+					"}",
+					"",
+					"if ( !deleteBookingJson || deleteBookingJson.length == 0 ) {",
+					"    deleteBookingJson = [ { \"bookingid\": -1, \"httpresponse\": 405 } ];",
+					"}",
+					"",
+					"// Persist the current values",
+					"pm.collectionVariables.set(\"addBookingJson\", addBookingJson);",
+					"pm.collectionVariables.set(\"retrieveBookingJson\", retrieveBookingJson);",
+					"pm.collectionVariables.set(\"deleteBookingJson\", deleteBookingJson);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "addBookingJson",
+			"value": ""
+		},
+		{
+			"key": "retrieveBookingJson",
+			"value": ""
+		},
+		{
+			"key": "deleteBookingJson",
+			"value": ""
+		},
+		{
+			"key": "firstName",
+			"value": ""
+		},
+		{
+			"key": "lastName",
+			"value": ""
+		},
+		{
+			"key": "totalPrice",
+			"value": ""
+		},
+		{
+			"key": "depositPaid",
+			"value": ""
+		},
+		{
+			"key": "checkIn",
+			"value": ""
+		},
+		{
+			"key": "checkOut",
+			"value": ""
+		},
+		{
+			"key": "description",
+			"value": ""
+		},
+		{
+			"key": "httpResponse",
+			"value": ""
+		},
+		{
+			"key": "bookingId",
+			"value": ""
+		}
+	]
+}

@@ -1,0 +1,29 @@
+meta {
+  name: Retrieve list of bookings
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/booking
+  body: none
+}
+
+assert {
+  res.status: 200
+}
+
+script:post-response {
+  let data = res.getBody();
+  bru.setVar("bookingId", data[0].bookingid);
+}
+
+tests {
+  const data = res.getBody();
+  
+  test("should be an array", function() {
+    const data = res.getBody();
+    expect(data).to.be.a('array');
+  });
+  
+}

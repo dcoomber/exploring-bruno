@@ -5,10 +5,15 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/character/:id
+  url: {{baseUrl}}/character/{{characterId}}
   body: none
 }
 
 query {
   ~page: 19
+}
+
+script:post-response {
+  let data = res.getBody();
+  bru.setVar("characterName", data.name);
 }
