@@ -1,0 +1,52 @@
+meta {
+  name: Add a booking
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/booking/
+  body: json
+}
+
+headers {
+  Accept: */*
+}
+
+body:json {
+  {
+      "firstname": "{{firstName}}",
+      "lastname": "{{lastName}}",
+      "totalprice": {{totalPrice}},
+      "depositpaid": {{depositPaid}},
+      "bookingdates": {
+          "checkin": "{{checkInDate}}",
+          "checkout": "{{checkOutDate}}"
+      }
+  }
+}
+
+vars:pre-request {
+  firstName: Daffy
+  lastName: Duck
+  totalPrice: 45000
+  depositPaid: 15000
+  checkInDate: 2022-05-01
+  checkOutDate: 2022-05-31
+}
+
+assert {
+  res.status: 200
+  res.body.bookingid: isNumber number
+  res.body.booking.firstname: isString
+  res.body.booking.lastname: isString
+  res.body.booking.totalprice: isNumber
+  res.body.booking.depositpaid: isBoolean
+  res.body.booking.bookingdates.checkin: isString 
+  res.body.booking.bookingdates.checkout: isString 
+}
+
+script:post-response {
+  let data = res.getBody();
+  bru.setVar("bookingId", data.bookingid);
+}

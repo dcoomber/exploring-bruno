@@ -1,0 +1,22 @@
+meta {
+  name: Delete a booking
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/booking/{{bookingId}}
+  body: none
+}
+
+headers {
+  authorization: {{authToken}}
+}
+
+vars:pre-request {
+  authToken: Basic YWRtaW46cGFzc3dvcmQxMjM=
+}
+
+assert {
+  res.status: 201
+}
