@@ -15,14 +15,15 @@ headers {
 
 assert {
   res.status: 200
+  res.body: isJson
 }
 
 tests {
-  // const data = res.getBody();
+  const data = res.getBody();
   
-  // test("should be an array", function() {
-  //   const data = res.getBody();
-  //   expect(data).to.be.a('array');
-  // });
+  test("should be an object", function() {
+    const data = res.getBody();
+    expect(data).to.be.a('object');
+  });
   
 }

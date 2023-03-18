@@ -9,4 +9,4 @@ Bruno version:  v0.10.2 (Mac M1)
    1. HTTP vs. Http; Graphql vs. GraphQL
 1. Cannot use CMD-A to select all text when adding headers, assertions or vars on requests (key column doesn't work, works for value)
 1. Exception occurs when request script references an element out of bounds in a response array (logged as https://github.com/usebruno/bruno/issues/127)
-1. 
+1. Asserting on `res.body isJson` returns the error "Invalid Chai property: json. Did you mean "to"?" (used on request "Retrieve a booking")

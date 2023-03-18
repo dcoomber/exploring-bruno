@@ -12,7 +12,7 @@ You can use git or any version control of your choice to collaborate over your a
 
 ## General issues
 
-1. CMD+W closes the current tab in Postman... closes the whole app in Bruno
+1. CMD+W closes the current tab in Postman... closes the whole app in Bruno without prompting to save any unsaved work.
 
 ## Explorations
 
