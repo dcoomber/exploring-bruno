@@ -15,7 +15,12 @@ headers {
 
 assert {
   res.status: 200
+  res.body.depositpaid: isBoolean
+  res.body.depositpaid: isJson
   res.body: isJson
+  res: isJson
+  res.body.bookingdates: isJson
+  res.body.firstname: isJson 
 }
 
 tests {
