@@ -4,6 +4,8 @@ Bruno version:  v0.10.2 (Mac M1)
 
 ## Issues
 
+1. No prompt to save changes when closing a request tab
+
 ### Logged / actioned
 1. Adding a collection / request / folder dialog
    1. Tab order is not limited to the dialog, it includes elements on the main application (logged as https://github.com/usebruno/bruno/issues/129)
