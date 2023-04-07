@@ -5,6 +5,12 @@ Bruno version:  v0.10.2 (Mac M1)
 ## Issues
 
 1. No prompt to save changes when closing a request tab
+1. Changing the order of requests is inconsistent (appears to randomly change the sort order)
+
+## Ideas
+
+1. A collection screen that allow users to capture metadata regarding the collection and its purpose
+1. Set a default environment (auto-selected when first opening a collection)
 
 ### Logged / actioned
 1. Adding a collection / request / folder dialog
