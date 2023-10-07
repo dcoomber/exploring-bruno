@@ -2,6 +2,11 @@
 
 Bruno version:  v0.10.2 (Mac M1)
 
+## API used testing
+
+1. [The Rick and Morty API](https://rickandmortyapi.com/) / [Postman collection](https://github.com/loopDelicious/rick-and-morty-postman)
+1. [EskomSePush](https://documenter.getpostman.com/view/1296288/UzQuNk3E0
+
 ## Issues
 
 1. GraphQL body did not import.  I cannot figure out where to capture the query body in Bruno (TODO: come back to this)
