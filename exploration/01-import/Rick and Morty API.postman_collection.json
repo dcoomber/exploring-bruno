@@ -1,10 +1,11 @@
 {
 	"info": {
-		"_postman_id": "b4f7639e-921b-42fd-9762-6fb85bf3711e",
+		"_postman_id": "a2912fde-28c3-4ca6-9ec9-a14dec60561c",
 		"name": "Rick and Morty API",
 		"description": "![rick and morty image](https://repository-images.githubusercontent.com/120371205/b6740400-92d4-11ea-8a13-d5f6e0558e9b)\n\n# Introduction\n\nThis documentation will help you get familiar with the resources of the **Rick and Morty API** and show you how to make different queries, so that you can get the most out of it. \n\n- [Website](https://rickandmortyapi.com/) \n- [Documentation](https://rickandmortyapi.com/documentation)\n- [GitHub repo](https://github.com/afuh/rick-and-morty-api)\n\n## Info and pagination\n\nThe API will automatically paginate the responses. You will receive up to 20 documents per page.\n\nEach resource contains an `info` object with information about the response.\n\n| Key   | Type         | Description                              |\n|-------|--------------|------------------------------------------|\n| count | int          | The length of the response               |\n| pages | int          | The amount of pages                      |\n| next  | string (url) | Link to the next page (if it exists)     |\n| prev  | string (url) | Link to the previous page (if it exists) |",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10338571"
+		"_exporter_id": "10338571",
+		"_collection_link": "https://www.postman.com/dcoomber/workspace/bruno-comparison/collection/10338571-a2912fde-28c3-4ca6-9ec9-a14dec60561c?action=share&source=collection_link&creator=10338571"
 	},
 	"item": [
 		{

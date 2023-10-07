@@ -1,15 +1,28 @@
 meta {
   name: Topics Nearby
   type: http
-  seq: 6
+  seq: 5
 }
 
 get {
   url: {{URL}}/topics_nearby?lat=-26.0269658&lon=28.0137339
   body: none
+  auth: none
 }
 
 query {
   lat: -26.0269658
   lon: 28.0137339
+}
+
+headers {
+  token: {{esp_token}}
+}
+
+assert {
+  res.status: 200
+}
+
+script:pre-request {
+  bru.setVar("esp_token", bru.getProcessEnv("ESP_TOKEN"));
 }

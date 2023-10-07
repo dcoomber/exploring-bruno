@@ -1,10 +1,27 @@
 meta {
   name: Check allowance
   type: http
-  seq: 5
+  seq: 6
 }
 
 get {
   url: {{URL}}/api_allowance
   body: none
+  auth: none
+}
+
+headers {
+  token: {{esp_token}}
+}
+
+assert {
+  res.status: 200
+  res.body.allowance: isJson
+  res.body.allowance.count: isNumber
+  res.body.allowance.limit: isNumber
+  res.body.allowance.type: isString
+}
+
+script:pre-request {
+  bru.setVar("esp_token", bru.getProcessEnv("ESP_TOKEN"));
 }

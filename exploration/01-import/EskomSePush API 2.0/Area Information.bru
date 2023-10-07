@@ -7,9 +7,22 @@ meta {
 get {
   url: {{URL}}/area?id=eskde-10-fourwaysext10cityofjohannesburggauteng&test=current
   body: none
+  auth: none
 }
 
 query {
   id: eskde-10-fourwaysext10cityofjohannesburggauteng
   test: current
+}
+
+headers {
+  token: {{esp_token}}
+}
+
+assert {
+  res.status: 200
+}
+
+script:pre-request {
+  bru.setVar("esp_token", bru.getProcessEnv("ESP_TOKEN"));
 }

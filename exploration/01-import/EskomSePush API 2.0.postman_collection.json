@@ -1,15 +1,31 @@
 {
 	"info": {
-		"_postman_id": "100f10a6-f4c4-4881-b55a-497d8fddf795",
+		"_postman_id": "9f33d520-3ace-4175-a289-0b3b30d767c1",
 		"name": "EskomSePush API 2.0",
-		"description": "# Features\n\n\\* Real time status for National Loadshedding  \n\\* Real time status per Area, Upcoming Events & Schedule  \n\\* Areas Search by Text  \n\\* Areas Nearby by GPS coordinates  \n\\* User Generated Topics by approx GPS location\n\n# 🚨 Important\n\n**By accessing or using the API you agree to** [**API License Agreement**](https://sepush.co.za/license-agreement).\n\n**Remember**\n\n\\* Each Token is allocated a Quota (typically Daily usage); once this usage has been exceeded; requests will be blocked until quota is available  \n\\* Do not share your Token  \n\\* You should only be doing requests from a single IP (not multiple simultaneously)  \n\\* Each individual must have their own Token linked to a valid email address\n\n##### **My Token has stopped working!**\n\n\\* If we detect malicious behaviour or anything we deem to be untoward we will disable a token without notice or warning  \n\\* We track usage in real-time and also long term\n\n##### **I've reached my limit!**\n\n\\* API users have a quota, and once this quota is used up in a period (typically daily), requests will be blocked until quota is available again  \n\\* _Status_ & _Area Information_ count for a single request  \n\\* Area Information has a `?test` parameter; which does not count toward your quota. **Use it for development!**  \n\\* For free accounts: _Areas Search_, _Areas Nearby_ & _Topics Nearby_ count as 5 calls toward your request quota These don't need to be called automatically or often  \n\\* The Check Allowance can be called to check your quota used & remaining. This doesn't count against your quota.\n\n##### Schedule issue or something missing ?\n\nMake sure you have the correct Area ID (using Area Nearby or Area Search); GPS based search is preferred as these are areas that EskomSePush users in that area are already using.\n\nIf a schedule has changed please be in contact with us to update it. Even better; help us update it (and earn some personal quota).\n\n# Responses\n\nAll valid responses will have Header `Content-Type: application/json`\n\nIt's important to check the HTTP status code to confirm accuracy of your response before processing it.\n\n| **HTTP Code** | **Description** |\n| --- | --- |\n| 200 | OK |\n| 400 | Bad Request (You sent something bad) |\n| 403 | Not Authenticated (Token Invalid / Disabled) |\n| 404 | Not Found |\n| 408 | Request Timeout (try again, gently) |\n| 429 | Too Many Requests (Token quota exceeded) |\n| 5xx | Server side issue - did you let us know? |\n\n# Authentication\n\nAdd the following HTTP request headers, for all requests against the API.\n\n| **Header** | **Value** |\n| --- | --- |\n| Token | The unique token/key you got from us |",
+		"description": "# Features\n\n\\* Real time status for National Loadshedding  \n\\* Real time status per Area, Upcoming Events & Schedule  \n\\* Areas Search by Text  \n\\* Areas Nearby by GPS coordinates  \n\\* User Generated Topics by approx GPS location\n\n# 🚨 Important\n\n**By accessing or using the API you agree to** [<b>API License Agreement</b>](https://sepush.co.za/license-agreement).\n\n**Remember**\n\n\\* Each Token is allocated a Quota (typically Daily usage); once this usage has been exceeded; requests will be blocked until quota is available  \n\\* Do not share your Token  \n\\* You should only be doing requests from a single IP (not multiple simultaneously)  \n\\* Each individual must have their own Token linked to a valid email address\n\n##### **My Token has stopped working!**\n\n\\* If we detect malicious behaviour or anything we deem to be untoward we will disable a token without notice or warning  \n\\* We track usage in real-time and also long term\n\n##### **I've reached my limit!**\n\n\\* API users have a quota, and once this quota is used up in a period (typically daily), requests will be blocked until quota is available again  \n\\* _Status_ & _Area Information_ count for a single request  \n\\* Area Information has a `?test` parameter; which does not count toward your quota. **Use it for development!**  \n\\* For free accounts: _Areas Search_, _Areas Nearby_ & _Topics Nearby_ count as 5 calls toward your request quota These don't need to be called automatically or often  \n\\* The Check Allowance can be called to check your quota used & remaining. This doesn't count against your quota.\n\n##### Schedule issue or something missing ?\n\nMake sure you have the correct Area ID (using Area Nearby or Area Search); GPS based search is preferred as these are areas that EskomSePush users in that area are already using.\n\nIf a schedule has changed please be in contact with us to update it. Even better; help us update it (and earn some personal quota).\n\n# Responses\n\nAll valid responses will have Header `Content-Type: application/json`\n\nIt's important to check the HTTP status code to confirm accuracy of your response before processing it.\n\n| **HTTP Code** | **Description** |\n| --- | --- |\n| 200 | OK |\n| 400 | Bad Request (You sent something bad) |\n| 403 | Not Authenticated (Token Invalid / Disabled) |\n| 404 | Not Found |\n| 408 | Request Timeout (try again, gently) |\n| 429 | Too Many Requests (Token quota exceeded) |\n| 5xx | Server side issue - did you let us know? |\n\n# Authentication\n\nAdd the following HTTP request headers, for all requests against the API.\n\n| **Header** | **Value** |\n| --- | --- |\n| Token | The unique token/key you got from us |",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10338571"
+		"_exporter_id": "10338571",
+		"_collection_link": "https://www.postman.com/dcoomber/workspace/bruno-comparison/collection/10338571-9f33d520-3ace-4175-a289-0b3b30d767c1?action=share&source=collection_link&creator=10338571"
 	},
 	"item": [
 		{
 			"name": "Status",
 			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{esp_token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -143,8 +159,17 @@
 		{
 			"name": "Check allowance",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "{{esp_token}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "{{URL}}/api_allowance",
 					"host": [
@@ -212,9 +237,9 @@
 			"type": "string"
 		},
 		{
+			"key": "esp_token",
 			"value": "",
-			"type": "string",
-			"disabled": true
+			"type": "string"
 		}
 	]
 }

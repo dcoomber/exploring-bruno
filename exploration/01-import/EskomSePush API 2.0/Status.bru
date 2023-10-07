@@ -14,10 +14,10 @@ headers {
   token: {{esp_token}}
 }
 
+assert {
+  res.status: 200
+}
+
 script:pre-request {
   bru.setVar("esp_token", bru.getProcessEnv("ESP_TOKEN"));
-  
-  bru.setVar("dummy", bru.getProcessEnv("PLAYWRIGHT_NS_USER_EN_US"));
-  
-  bru.setVar("dummy2", bru.getProcessEnv("DUMMY2"));
 }
