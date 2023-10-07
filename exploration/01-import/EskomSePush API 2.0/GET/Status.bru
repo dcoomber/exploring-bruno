@@ -1,0 +1,23 @@
+meta {
+  name: Status
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{URL}}/status
+  body: none
+  auth: none
+}
+
+headers {
+  token: {{esp_token}}
+}
+
+script:pre-request {
+  bru.setVar("esp_token", bru.getProcessEnv("ESP_TOKEN"));
+  
+  bru.setVar("dummy", bru.getProcessEnv("PLAYWRIGHT_NS_USER_EN_US"));
+  
+  bru.setVar("dummy2", bru.getProcessEnv("DUMMY2"));
+}
